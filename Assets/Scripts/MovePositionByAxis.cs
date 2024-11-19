@@ -19,6 +19,7 @@ public class MovePositionByAxis : MonoBehaviour
 
 
 
+
     private void OnDestroy() 
     {
         InputManager.Instance.UnRegisterOnJumpInput(Jump);
@@ -30,7 +31,7 @@ public class MovePositionByAxis : MonoBehaviour
     }
     void Update()
     {
-        Vector3 NewVelocity = InputManager.Instance.movementInput * speed;
+       // Vector3 NewVelocity = InputManager.Instance.movementInput * speed;
         NewVelocity.y = physicsBody.velocity.y;
         physicsBody.velocity = NewVelocity;
     }

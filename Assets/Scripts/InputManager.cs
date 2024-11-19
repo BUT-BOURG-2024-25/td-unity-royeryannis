@@ -1,42 +1,50 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using System;
 
 public class InputManager : MonoBehaviour
 {
     [SerializeField]
-    private InputActionReference MovementAction = null;
+    private InputActionReference movementAction = null;
+    [SerializeField]
+    private InputActionReference jumpAction = null;
 
     [SerializeField]
-    private InputActionReference JumpAction = null;
+    private InputActionReference mouseClickAction = null;
+    // Start is called before the first frame update
 
-    [SerializeField]
-    private InputActionReference OnClick = null;
-
-
-    public static InputManager Instance { get { return _instance; } }
-    public static InputManager _instance = null;
+    public static InputManager instance { get { return _instance; } }
+    private static InputManager _instance = null;
 
     public Vector3 movementInput { get; private set; }
 
-    public void RegisterOnJumpInput(Action<InputAction.CallbackContext> OnJumpAction)
+
+
+
+
+
+    public void registerOnJumpInput(Action<InputAction.CallbackContext> onJumpAction)
     {
-        JumpAction.action.performed += OnJumpAction;
+        jumpAction.action.performed += onJumpAction;
     }
 
-    public void UnRegisterOnJumpInput(Action<InputAction.CallbackContext> OnJumpAction)
+    public void unregisterOnJumpInput(Action<InputAction.CallbackContext> onJumpAction)
     {
-        JumpAction.action.performed -= OnJumpAction;
+        jumpAction.action.performed -= onJumpAction;
     }
 
-    public void RegisterOnClick(Action<InputAction.CallbackContext> OnClickAction)
+
+
+    public void registerOnClickInput(Action<InputAction.CallbackContext> onClickAction)
     {
-        OnClick.action.performed += OnClickAction;
+        mouseClickAction.action.performed += onClickAction;
     }
 
-    public void UnRegisterOnClick(Action<InputAction.CallbackContext> OnClickAction)
+    public void unregisterOnClickInput(Action<InputAction.CallbackContext> onClickAction)
     {
-        OnClick.action.performed -= OnClickAction;
+        mouseClickAction.action.performed -= onClickAction;
     }
 
 
@@ -44,21 +52,21 @@ public class InputManager : MonoBehaviour
 
     private void Awake()
     {
-        
         if (_instance == null)
-        {
             _instance = this;
-        }
         else
-        {
             Destroy(gameObject);
-        }
+    }
+
+    void Start()
+    {
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        Vector2 moveInput = MovementAction.action.ReadValue<Vector2>();
+        Vector2 moveInput = movementAction.action.ReadValue<Vector2>();
         movementInput = new Vector3(moveInput.x, 0, moveInput.y);
     }
 }
